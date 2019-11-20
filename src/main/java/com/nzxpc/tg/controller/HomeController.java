@@ -9,11 +9,14 @@ import java.util.List;
 @RequestMapping(path = "/home")
 public class HomeController {
     @RequestMapping("login")
-    public List<Integer> login() {
+    public model login() {
+        model model=new model();
+
         List<Integer>list=new ArrayList<>();
         list.add(1);
         list.add(2);
         list.add(3);
-        return list;
+        model.setList(list);
+        return model;
     }
 }
