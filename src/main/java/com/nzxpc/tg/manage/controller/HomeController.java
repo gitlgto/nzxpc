@@ -1,4 +1,4 @@
-package com.nzxpc.tg.controller;
+package com.nzxpc.tg.manage.controller;
 
 import org.springframework.web.bind.annotation.*;
 
