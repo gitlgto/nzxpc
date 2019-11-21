@@ -4,5 +4,5 @@ import com.nzxpc.handler.web.WebAppConfig;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class WebConfig extends WebAppConfig {
+public class WebConfig extends WebAppConfig{
 }
