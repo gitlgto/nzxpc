@@ -9,6 +9,7 @@ import java.util.List;
 @RequestMapping(path = "/home")
 public class HomeController {
     @RequestMapping("login")
+    @ResponseBody
     public model login() {
         model model=new model();
 
