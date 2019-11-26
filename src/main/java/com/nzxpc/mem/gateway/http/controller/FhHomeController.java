@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/fhHome")
-public class FhHomeController implements ControllerInterface {
+public class FhHomeController extends BaseController {
     /**
      * 过滤出只是菜单以及下级 对于返回的list是否可以加注解，另外实现接口得处理
      * @return
