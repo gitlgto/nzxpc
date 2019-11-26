@@ -7,8 +7,10 @@ import com.nzxpc.handler.util.validate.Display;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 /**
  * worker不入库 1.缓存分落地不落地，落地则要加entity。不落地不用加，但都要继承memId
@@ -22,4 +24,11 @@ import javax.persistence.Entity;
 public class Worker extends MemIdEntityNoUpdate {
     @Display("姓名")
     private String name;
+
+    @Display("角色")
+    @NotNull(message = "不能为空")
+    @Range(min = 0, max = Integer.MAX_VALUE)
+    private int roleId;
+
+    private boolean isGod;
 }

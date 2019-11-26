@@ -43,7 +43,7 @@ public class AuthorityInterceptor implements HandlerInterceptor {
         }
         Worker worker = (Worker) session.getAttribute("user");
 
-        Button button = Cache.Instance.ButtonMap.get(uri);
+        Button button = Cache.CodeButtonMap.get(uri);
         if (button == null) {
             if (worker != null) {
                 return WebUtil.noAuth();
