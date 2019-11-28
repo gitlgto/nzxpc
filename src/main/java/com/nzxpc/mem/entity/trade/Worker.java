@@ -11,6 +11,8 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * worker不入库 1.缓存分落地不落地，落地则要加entity。不落地不用加，但都要继承memId
@@ -31,4 +33,7 @@ public class Worker extends MemIdEntityNoUpdate {
     private int roleId;
 
     private boolean isGod;
+
+    //最近使用的ip段（ip前两段）
+    private Set<String> recentIps = new HashSet<>();
 }
