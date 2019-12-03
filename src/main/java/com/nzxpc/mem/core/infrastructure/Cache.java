@@ -3,6 +3,7 @@ package com.nzxpc.mem.core.infrastructure;
 import com.nzxpc.handler.util.db.DbUtil;
 import com.nzxpc.handler.util.db.IdEntityBasePure;
 import com.nzxpc.handler.util.db.SqlHelper;
+import com.nzxpc.handler.util.encrypt.Md5Util;
 import com.nzxpc.handler.web.ButtonUtil;
 import com.nzxpc.handler.web.entity.Button;
 import com.nzxpc.mem.Application;
@@ -34,6 +35,7 @@ public class Cache {
 
     public static ConcurrentHashMap<Integer, Role> RoleMap = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<Integer, Worker> WorkerMap = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Integer> userNameMap = new ConcurrentHashMap<>();
     //key：uri,“/controller/action”
     public static ConcurrentHashMap<String, Button> UriButtonMap = new ConcurrentHashMap<>();
     //key：code,“controller_action”
@@ -95,13 +97,30 @@ public class Cache {
         worker.setName("000");
         worker.setRoleId(0);
         worker.setId(1);
+        worker.setPassWord(Md5Util.generatePassWord("aaaaaa"));
         WorkerMap.put(worker.getId(), worker);
+        userNameMap.put(worker.getName().toLowerCase(), worker.getId());
     }
 
     private static void loadRoleAuthMap() {
         SqlHelper<RoleButtonMap> helper = DbUtil.getSqlHelper(RoleButtonMap.class);
         RoleAuthMap.clear();
         loadRoleAuthMap(0, helper.list().stream().filter(a -> RoleMap.keySet().contains(a.getRoleId())).collect(Collectors.toList()));
+    }
+
+    public static Worker getWorker(String userName) {
+        Worker worker;
+        Integer workerId = userNameMap.get(userName.toLowerCase());
+        if (workerId != null) {
+            worker = getWorker(workerId);
+        } else {
+            worker = null;
+        }
+        return worker;
+    }
+
+    public static Worker getWorker(Integer workerId) {
+        return WorkerMap.get(workerId);
     }
 
 }
