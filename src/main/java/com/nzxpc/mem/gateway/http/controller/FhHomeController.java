@@ -2,14 +2,10 @@ package com.nzxpc.mem.gateway.http.controller;
 
 import com.nzxpc.handler.mem.core.entity.Result;
 import com.nzxpc.handler.web.ButtonAttribute;
-import com.nzxpc.handler.web.ControllerInterface;
 import com.nzxpc.mem.core.infrastructure.AuthUtil;
 import com.nzxpc.mem.core.infrastructure.Cache;
 import com.nzxpc.mem.entity.trade.Worker;
-import com.nzxpc.mem.gateway.http.dto.FhHomeSettingModelOut;
-import com.nzxpc.mem.gateway.http.dto.FhWorkerLoginModelIn;
-import com.nzxpc.mem.gateway.http.dto.FhWorkerLoginModelOut;
-import com.nzxpc.mem.gateway.http.dto.MenuItems;
+import com.nzxpc.mem.gateway.http.dto.*;
 import com.nzxpc.mem.gateway.service.FhWorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,11 +31,16 @@ public class FhHomeController extends BaseController {
     @ButtonAttribute(name = "主页")
     public FhHomeSettingModelOut setting() {
         FhHomeSettingModelOut model = new FhHomeSettingModelOut();
-        //根据登录成功的getcurrentuser，周期函数
-        List<MenuItems> menus = AuthUtil.getMenus(1);
-        model.setMenus(menus);
+        //根据登录成功的getCurrentWorker，周期函数
+        Worker worker = getCurrentWorker();
+        if (worker != null) {
+            List<MenuItems> menus = AuthUtil.getMenus(worker.getId());
+            WorkerInfo workerInfo = WorkerInfo.valueOf(worker);
+            model.setData(workerInfo);
+            model.setMenus(menus);
+            model.setOk(true);
+        }
         return model;
-
     }
 
     /**

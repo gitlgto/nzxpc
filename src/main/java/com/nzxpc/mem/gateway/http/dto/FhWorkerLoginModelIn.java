@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Setter
 @Accessors(chain = true)
 public class FhWorkerLoginModelIn {
-
+    // 全局异常参数验证数据统一处理并返回，状态码是200，而不再是400
 
     @Display("用户名")
     @NotBlank(message = "[ 用户名 ]必填")

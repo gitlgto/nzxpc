@@ -1,5 +1,6 @@
 package com.nzxpc.mem.core.infrastructure;
 
+import com.google.common.collect.ImmutableMap;
 import com.nzxpc.handler.util.db.DbUtil;
 import com.nzxpc.handler.util.db.IdEntityBasePure;
 import com.nzxpc.handler.util.db.SqlHelper;
@@ -28,6 +29,14 @@ public class Cache {
         initRootRole();
         initRootWorker();
         loadRoleAuthMap();
+    }
+
+    public static void deleteRoleButtonMap() {
+        // 每次删除所有，再初始化roleButton
+        SqlHelper<RoleButtonMap> helper = DbUtil.getSqlHelper(RoleButtonMap.class);
+        if (helper.get() != null) {
+            RoleMap.values().forEach(item -> helper.delete("roleId=:roleId", ImmutableMap.of("roleId", item.getId())));
+        }
     }
 
     public static Cache Instance = new Cache();
@@ -87,7 +96,7 @@ public class Cache {
     // 初始化账户并分配权限
     private static void initRootRole() {
         Role role = new Role();
-        role.setName("").setParentId(-1);
+        role.setName("").setParentId(-1).setId(0);
         RoleMap.put(0, role);
     }
 
@@ -104,6 +113,18 @@ public class Cache {
 
     private static void loadRoleAuthMap() {
         SqlHelper<RoleButtonMap> helper = DbUtil.getSqlHelper(RoleButtonMap.class);
+
+        //初始化roleButton,以保持RoleButtonMap中有数据
+        if (helper.list().size() <= 0) {
+            CodeButtonMap.values().forEach(item -> {
+                Role role = RoleMap.get(0);
+                RoleButtonMap map = new RoleButtonMap();
+                map.setRoleId(role.getId());
+                map.setButtonId(item.getId());
+                helper.add(map);
+            });
+        }
+
         RoleAuthMap.clear();
         loadRoleAuthMap(0, helper.list().stream().filter(a -> RoleMap.keySet().contains(a.getRoleId())).collect(Collectors.toList()));
     }

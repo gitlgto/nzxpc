@@ -1,6 +1,5 @@
 package com.nzxpc.mem;
 
-import com.nzxpc.handler.web.ButtonUtil;
 import com.nzxpc.mem.core.infrastructure.Cache;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +14,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        Cache.deleteRoleButtonMap();
         Cache.init();
-//        System.out.println(1111);
     }
 }
