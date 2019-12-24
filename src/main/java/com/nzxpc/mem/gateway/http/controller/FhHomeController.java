@@ -28,7 +28,7 @@ public class FhHomeController extends BaseController {
      * @return
      */
     @PostMapping("setting")
-    @ButtonAttribute(name = "主页")
+    @ButtonAttribute(name = "主页",parentButtonCode = "fhHome")
     public FhHomeSettingModelOut setting() {
         FhHomeSettingModelOut model = new FhHomeSettingModelOut();
         //根据登录成功的getCurrentWorker，周期函数
